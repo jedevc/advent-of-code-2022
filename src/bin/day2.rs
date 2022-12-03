@@ -1,4 +1,3 @@
-use core::panic;
 use std::cmp::{Ordering,PartialOrd};
 use advent_of_code_2022::{main, Solver};
 
