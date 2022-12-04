@@ -1,5 +1,5 @@
-use std::cmp::{Ordering,PartialOrd};
 use advent_of_code_2022::{main, Solver};
+use std::cmp::{Ordering, PartialOrd};
 
 #[derive(PartialEq, Clone, Copy, Debug)]
 enum Choice {
@@ -28,22 +28,19 @@ impl Choice {
     fn find(&self, order: Ordering) -> Choice {
         match order {
             Ordering::Equal => *self,
-            Ordering::Greater => 
-                match self {
-                    Choice::Rock => Choice::Paper,
-                    Choice::Paper => Choice::Scissors,
-                    Choice::Scissors => Choice::Rock,
-                },
-            Ordering::Less => 
-                match self {
-                    Choice::Rock => Choice::Scissors,
-                    Choice::Paper => Choice::Rock,
-                    Choice::Scissors => Choice::Paper,
-                },
+            Ordering::Greater => match self {
+                Choice::Rock => Choice::Paper,
+                Choice::Paper => Choice::Scissors,
+                Choice::Scissors => Choice::Rock,
+            },
+            Ordering::Less => match self {
+                Choice::Rock => Choice::Scissors,
+                Choice::Paper => Choice::Rock,
+                Choice::Scissors => Choice::Paper,
+            },
         }
     }
 }
-
 
 #[derive(Debug)]
 struct Match {
@@ -64,7 +61,7 @@ impl Match {
             Some(Ordering::Equal) => 3,
             Some(Ordering::Greater) => 6,
         };
-        return base + win
+        return base + win;
     }
 }
 
@@ -86,7 +83,7 @@ impl Target {
             Ordering::Equal => 3,
             Ordering::Greater => 6,
         };
-        return base + win
+        return base + win;
     }
 }
 
@@ -97,41 +94,47 @@ struct Day2 {
 
 impl Solver<i64> for Day2 {
     fn new(problem: &str) -> Self {
-        let matches = problem.lines().map(|line| {
-            let (yours, mine) = line.split_once(" ").unwrap();
-            Match {
-                mine: match mine {
-                    "X" => Choice::Rock,
-                    "Y" => Choice::Paper,
-                    "Z" => Choice::Scissors,
-                    _ => panic!("unknown choice"),
-                },
-                yours: match yours {
-                    "A" => Choice::Rock,
-                    "B" => Choice::Paper,
-                    "C" => Choice::Scissors,
-                    _ => panic!("unknown choice"),
-                },
-            }
-        }).collect();
+        let matches = problem
+            .lines()
+            .map(|line| {
+                let (yours, mine) = line.split_once(" ").unwrap();
+                Match {
+                    mine: match mine {
+                        "X" => Choice::Rock,
+                        "Y" => Choice::Paper,
+                        "Z" => Choice::Scissors,
+                        _ => panic!("unknown choice"),
+                    },
+                    yours: match yours {
+                        "A" => Choice::Rock,
+                        "B" => Choice::Paper,
+                        "C" => Choice::Scissors,
+                        _ => panic!("unknown choice"),
+                    },
+                }
+            })
+            .collect();
 
-        let targets = problem.lines().map(|line| {
-            let (yours, goal) = line.split_once(" ").unwrap();
-            Target {
-                goal: match goal {
-                    "X" => Ordering::Less,
-                    "Y" => Ordering::Equal,
-                    "Z" => Ordering::Greater,
-                    _ => panic!("unknown goal"),
-                },
-                yours: match yours {
-                    "A" => Choice::Rock,
-                    "B" => Choice::Paper,
-                    "C" => Choice::Scissors,
-                    _ => panic!("unknown choice"),
-                },
-            }
-        }).collect();
+        let targets = problem
+            .lines()
+            .map(|line| {
+                let (yours, goal) = line.split_once(" ").unwrap();
+                Target {
+                    goal: match goal {
+                        "X" => Ordering::Less,
+                        "Y" => Ordering::Equal,
+                        "Z" => Ordering::Greater,
+                        _ => panic!("unknown goal"),
+                    },
+                    yours: match yours {
+                        "A" => Choice::Rock,
+                        "B" => Choice::Paper,
+                        "C" => Choice::Scissors,
+                        _ => panic!("unknown choice"),
+                    },
+                }
+            })
+            .collect();
 
         Day2 { matches, targets }
     }
