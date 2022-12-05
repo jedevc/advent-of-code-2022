@@ -14,7 +14,7 @@ macro_rules! main {
 
             let filename = Path::new("resources").join($filename);
             let problem = fs::read_to_string(filename).unwrap();
-            let problem = problem.trim();
+            let problem = problem.trim_end();
 
             advent_of_code_2022::solver::run_solve::<$solver, _>(problem);
         }
@@ -31,7 +31,7 @@ macro_rules! test_example {
 
             let filename = Path::new("resources").join($filename);
             let problem = fs::read_to_string(filename).unwrap();
-            let problem = problem.trim();
+            let problem = problem.trim_end();
 
             advent_of_code_2022::solver::run_test::<$solver, _>(problem, $expected);
         }
